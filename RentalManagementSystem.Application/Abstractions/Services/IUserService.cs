@@ -1,24 +1,20 @@
-﻿using RentalManagementSystem.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RentalManagementSystem.Application.DTOs;
+using RentalManagementSystem.Application.DTOs.RentalManagementSystem.Application.DTOs;
 
 namespace RentalManagementSystem.Application.Abstractions.Services
 {
     public interface IUserService
     {
-        Task<User> GetByIdAsync(string userId);
+        Task<ResponseModel<UserDto>> GetByIdAsync(string userId);
 
-        Task<User> GetByEmailAsync(string email);
+        Task<ResponseModel<UserDto>> GetByEmailAsync(string email);
 
-        Task<User> CreateUserAsync(User user, string password);
+        Task<ResponseModel<UserDto>> CreateUserAsync(CreateUserDto createUserDto);
 
-        Task UpdateAsync(User user);    
+        Task<ResponseModel> UpdateAsync(UpdateUserDto updateUserDto, string userId);    
 
-        Task DeleteAsync(string userId);
+        Task<ResponseModel> DeleteAsync(string userId);
 
-        Task<bool> ExistsAsync(string userId);
+        Task<ResponseModel<bool>> ExistsAsync(string userId);
     }
 }

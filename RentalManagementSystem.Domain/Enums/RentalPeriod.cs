@@ -2,7 +2,7 @@
 {
     public enum RentalPeriod
     {
-        Daily,
+        Daily = 1,
 
         Weekly,
 

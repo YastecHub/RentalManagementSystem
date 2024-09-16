@@ -2,7 +2,7 @@
 {
     public enum RentalStatus
     {
-        Pending,
+        Pending = 1,
 
         InProgress,
 

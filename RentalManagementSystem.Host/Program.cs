@@ -1,14 +1,21 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RentalManagementSystem.Entities;
 using RentalManagementSystem.Persistence.Context;
 using RentalManagementSystem.Persistence.Context.Seeder;
+using RentalManagementSystem.Persistence.Logging.Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.RegisterSerilog();
 
 // Add Identity services
 builder.Services.AddIdentity<User, IdentityRole>(options =>

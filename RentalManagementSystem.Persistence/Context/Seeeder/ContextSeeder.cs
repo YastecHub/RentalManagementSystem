@@ -1,5 +1,5 @@
-﻿using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using RentalManagementSystem.Domain.Enums;
 using RentalManagementSystem.Entities;
 
 namespace RentalManagementSystem.Persistence.Context.Seeder

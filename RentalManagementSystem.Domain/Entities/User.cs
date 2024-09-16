@@ -1,5 +1,4 @@
-﻿using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using RentalManagementSystem.Domain.Entities.Contracts;
 using RentalManagementSystem.Domain.Enums;
 using System.Collections.Generic;
