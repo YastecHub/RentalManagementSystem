@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using RentalManagementSystem.Host.Models;
 using System.Diagnostics;
 

@@ -8,7 +8,7 @@ namespace RentalManagementSystem.Entities
 
         public double RentalPrice { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public int StockQuantity { get; set; }
 

@@ -24,8 +24,11 @@ namespace RentalManagementSystem.Persistence.Context.Seeder
             var defaultUser = new User
             {
                 UserName = "Yastec",
+                FirstName = "Oladimeji",
+                LastName = "OyeboYas",
                 Email = "yasiroyebo@gmail.com",
                 PhoneNumber = "09068913009",
+                Address = "Aboru close lagos",
                 AlternativePhoneNumber = "09068913009",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,

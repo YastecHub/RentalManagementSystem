@@ -10,6 +10,8 @@ namespace RentalManagementSystem.Host.Models
     public class CustomeErrorViewModel
     {
         public string? ErrorId { get; set; }
+
         public string? Message { get; set; }
+
     }
 }

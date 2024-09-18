@@ -11,7 +11,7 @@ namespace RentalManagementSystem.Application.DTOs
         public string PhoneNumber { get; set; } 
         public string AlternativePhoneNumber { get; set; }
         public string Address { get; set; }
-        public string CustomerPhoto { get; set; }
+        public string? CustomerPhoto { get; set; }
         public Gender Gender { get; set; }
         public UserRole UserRole { get; set; }
     }
