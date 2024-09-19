@@ -4,7 +4,7 @@ namespace RentalManagementSystem.Application.Abstractions.Reposittories
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByIdAsync(string id);
+        Task<User> GetUserByIdAsync(int id);
 
         Task<User> GetUserByEmail(string email);
 
@@ -12,8 +12,8 @@ namespace RentalManagementSystem.Application.Abstractions.Reposittories
 
         Task UpdateAsync(User user);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(int id);
 
-        Task<bool> ExistAsync(string userId);
+        Task<bool> ExistAsync(int userId);
     }
 }

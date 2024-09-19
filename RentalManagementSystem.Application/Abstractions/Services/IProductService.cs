@@ -1,4 +1,5 @@
-﻿using RentalManagementSystem.Entities;
+﻿using RentalManagementSystem.Application.DTOs;
+using RentalManagementSystem.Entities;
 
 namespace RentalManagementSystem.Application.Abstractions.Services
 {
@@ -6,14 +7,14 @@ namespace RentalManagementSystem.Application.Abstractions.Services
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
 
-        Task<Product> GetByIdAsync(int productId);
+        Task<ResponseModel<ProductDto>> GetByIdAsync(Guid productId);
 
-        Task AddProductAsync(Product product);
+        Task<ResponseModel<ProductDto>> AddProductAsync(ProductDto productDto);
 
-        Task UpdateProductAsync(Product product);
+        Task<ResponseModel<ProductDto>> UpdateProductAsync(ProductDto productDto);
 
-        Task DeleteProductAsync(int productId);
+        Task<ResponseModel> DeleteProductAsync(Guid productId);
 
-        Task<bool> IsProductAvailableAsync(int productId);
+        Task<ResponseModel<bool>> IsProductAvailableAsync(int productId);
     }
 }

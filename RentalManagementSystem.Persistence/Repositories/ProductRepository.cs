@@ -13,13 +13,15 @@ namespace RentalManagementSystem.Persistence.Repositories
         {
             _context = context;
         }
-        public async Task AddProductAsync(Product product)
+
+        public async Task<Product> AddProductAsync(Product product)
         {
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
+            return product;
         }
 
-        public async Task DeleteProductAsync(int productId)
+        public async Task DeleteProductAsync(Guid productId)
         {
             var product = await _context.Products.FindAsync(productId);
             if (product != null) 
@@ -34,7 +36,7 @@ namespace RentalManagementSystem.Persistence.Repositories
             return await _context.Products.ToListAsync();
         }
 
-        public async Task<Product> GetProductByIdAsync(int productId)
+        public async Task<Product> GetProductByIdAsync(Guid productId)
         {
             return await _context.Products.FindAsync(productId);
         }

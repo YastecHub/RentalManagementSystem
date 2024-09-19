@@ -11,13 +11,13 @@ namespace RentalManagementSystem.Application.Abstractions.Reposittories
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
 
-        Task<Product> GetProductByIdAsync(int productId);
+        Task<Product> GetProductByIdAsync(Guid productId);
 
-        Task AddProductAsync (Product product);
+        Task<Product> AddProductAsync (Product product);
 
         Task UpdateProductAsync (Product product);
 
-        Task DeleteProductAsync (int productId);
+        Task DeleteProductAsync (Guid productId);
 
         Task<bool> IsProductAvailableAsync(int productId);
     }
