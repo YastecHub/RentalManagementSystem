@@ -24,6 +24,7 @@ namespace RentalManagementSystem.Application.Services
             {
                 var rentalRequest = new RentalRequest
                 {
+                    Id = Guid.NewGuid(),
                     UserId = createRentalRequest.UserId,
                     ProductId = Guid.Parse(createRentalRequest.ProductId),
                     RentalPeriod = createRentalRequest.RentalPeriod,

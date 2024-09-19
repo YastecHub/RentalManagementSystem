@@ -20,6 +20,7 @@ namespace RentalManagementSystem.Application.Services
             {
                 var user = new User
                 {
+                    Id = Guid.NewGuid(),
                     FirstName = createUserDto.FirstName,
                     LastName = createUserDto.LastName,
                     Email = createUserDto.Email,

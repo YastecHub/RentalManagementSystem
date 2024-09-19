@@ -7,7 +7,7 @@ namespace RentalManagementSystem.Entities
     {
         public string ReportName { get; set; }
         public DateTime GeneratedDate { get; set; }
-        public string GeneratedByUserId { get; set; }
+        public Guid GeneratedByUserId { get; set; }
         public User GeneratedByUser { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

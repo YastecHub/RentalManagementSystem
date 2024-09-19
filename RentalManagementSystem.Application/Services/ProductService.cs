@@ -21,6 +21,7 @@ namespace RentalManagementSystem.Application.Services
             {
                 var product = new Product
                 {
+                    Id = Guid.NewGuid(),
                     Name = createProductDto.Name,
                     Description = createProductDto.Description,
                     RentalPrice = createProductDto.RentalPrice,
