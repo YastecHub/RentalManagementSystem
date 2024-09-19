@@ -9,9 +9,9 @@ namespace RentalManagementSystem.Application.Abstractions.Services
 
         Task<ResponseModel<ProductDto>> GetByIdAsync(Guid productId);
 
-        Task<ResponseModel<ProductDto>> AddProductAsync(ProductDto productDto);
+        Task<ResponseModel<CreateProductDto>> AddProductAsync(CreateProductDto createProductDto);
 
-        Task<ResponseModel<ProductDto>> UpdateProductAsync(ProductDto productDto);
+        Task<ResponseModel<UpdateProductDto>> UpdateProductAsync(UpdateProductDto updateProductDto);
 
         Task<ResponseModel> DeleteProductAsync(Guid productId);
 

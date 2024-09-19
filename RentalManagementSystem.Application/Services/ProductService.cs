@@ -15,41 +15,41 @@ namespace RentalManagementSystem.Application.Services
             _productRepository = productRepository;
         }
 
-        public async Task<ResponseModel<ProductDto>> AddProductAsync(ProductDto productDto)
+        public async Task<ResponseModel<CreateProductDto>> AddProductAsync(CreateProductDto createProductDto)
         {
             try
             {
                 var product = new Product
                 {
-                    Name = productDto.Name,
-                    Description = productDto.Description,
-                    RentalPrice = productDto.RentalPrice,
-                    StockQuantity = productDto.StockQuantity,
-                    Available = productDto.Available,
+                    Name = createProductDto.Name,
+                    Description = createProductDto.Description,
+                    RentalPrice = createProductDto.RentalPrice,
+                    StockQuantity = createProductDto.StockQuantity,
+                    Available = createProductDto.Available,
                 };
 
                 var addedProduct = await _productRepository.AddProductAsync(product);
 
                 if (addedProduct == null)
                 {
-                    return new ResponseModel<ProductDto>
+                    return new ResponseModel<CreateProductDto>
                     {
                         IsSuccessful = false,
                         Message = "Failed to add product"
                     };
                 }
 
-                productDto.Id = addedProduct.Id;
-                return new ResponseModel<ProductDto>
+                createProductDto.Id = addedProduct.Id;
+                return new ResponseModel<CreateProductDto>
                 {
                     IsSuccessful = true,
                     Message = "Product added successfully",
-                    Data = productDto
+                    Data = createProductDto
                 };
             }
             catch (Exception ex)
             {
-                return ResponseModel<ProductDto>.Failure($"Error occurred while adding product: {ex.Message}");
+                return ResponseModel<CreateProductDto>.Failure($"Error occurred while adding product: {ex.Message}");
             }
         }
 
@@ -89,7 +89,6 @@ namespace RentalManagementSystem.Application.Services
             }
             catch (Exception ex)
             {
-                // Handle the error by either throwing or logging it
                 throw new Exception($"Error occurred while fetching products: {ex.Message}");
             }
         }
@@ -157,30 +156,30 @@ namespace RentalManagementSystem.Application.Services
             }
         }
 
-        public async Task<ResponseModel<ProductDto>> UpdateProductAsync(ProductDto productDto)
+        public async Task<ResponseModel<UpdateProductDto>> UpdateProductAsync(UpdateProductDto updateProductDto)
         {
             try
             {
-                var existingProduct = await _productRepository.GetProductByIdAsync(productDto.Id);
+                var existingProduct = await _productRepository.GetProductByIdAsync(updateProductDto.Id);
 
                 if (existingProduct == null)
                 {
-                    return new ResponseModel<ProductDto>
+                    return new ResponseModel<UpdateProductDto>
                     {
                         IsSuccessful = false,
                         Message = "Product not found"
                     };
                 }
 
-                existingProduct.Name = productDto.Name;
-                existingProduct.Description = productDto.Description;
-                existingProduct.RentalPrice = productDto.RentalPrice;
-                existingProduct.StockQuantity = productDto.StockQuantity;
-                existingProduct.Available = productDto.Available;
+                existingProduct.Name = updateProductDto.Name;
+                existingProduct.Description = updateProductDto.Description;
+                existingProduct.RentalPrice = updateProductDto.RentalPrice;
+                existingProduct.StockQuantity = updateProductDto.StockQuantity;
+                existingProduct.Available = updateProductDto.Available;
 
                 await _productRepository.UpdateProductAsync(existingProduct);
 
-                var updatedProductDto = new ProductDto
+                var updatedProductDto = new UpdateProductDto
                 {
                     Id = existingProduct.Id,
                     Name = existingProduct.Name,
@@ -190,7 +189,7 @@ namespace RentalManagementSystem.Application.Services
                     Available = existingProduct.Available
                 };
 
-                return new ResponseModel<ProductDto>
+                return new ResponseModel<UpdateProductDto>
                 {
                     IsSuccessful = true,
                     Message = "Product updated successfully",
@@ -199,7 +198,7 @@ namespace RentalManagementSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return ResponseModel<ProductDto>.Failure($"Error occurred while updating product: {ex.Message}");
+                return ResponseModel<UpdateProductDto>.Failure($"Error occurred while updating product: {ex.Message}");
             }
         }
     }
