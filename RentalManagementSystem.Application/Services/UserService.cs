@@ -1,4 +1,4 @@
-﻿using RentalManagementSystem.Application.Abstractions.Reposittories;
+﻿using RentalManagementSystem.Application.Abstractions.Repositories;
 using RentalManagementSystem.Application.Abstractions.Services;
 using RentalManagementSystem.Application.DTOs;
 using RentalManagementSystem.Entities;
@@ -37,7 +37,7 @@ namespace RentalManagementSystem.Application.Services
 
                 var userDto = new UserDto
                 {
-                    Id = user.Id,
+                    Id = user.Id.ToString(),
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
@@ -95,7 +95,7 @@ namespace RentalManagementSystem.Application.Services
         {
             try
             {
-                var exists = await _userRepository.ExistAsync(userId);
+                var exists = await _userRepository.ExistsAsync(userId);
                 return ResponseModel<bool>.Success(exists, exists ? "User exists" : "User does not exist");
             }
             catch (Exception ex)
@@ -108,7 +108,7 @@ namespace RentalManagementSystem.Application.Services
         {
             try
             {
-                var user = await _userRepository.GetUserByEmail(email);
+                var user = await _userRepository.GetUserByEmailAsync(email);
                 if (user == null)
                 {
                     return new ResponseModel<UserDto>
@@ -121,7 +121,7 @@ namespace RentalManagementSystem.Application.Services
 
                 var userDto = new UserDto
                 {
-                    Id = user.Id,
+                    Id = user.Id.ToString(),
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
@@ -164,7 +164,7 @@ namespace RentalManagementSystem.Application.Services
 
                 var userDto = new UserDto
                 {
-                    Id = user.Id,
+                    Id = user.Id.ToString(),
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
@@ -224,7 +224,7 @@ namespace RentalManagementSystem.Application.Services
                     Message = "User updated successfully",
                     Data = new UserDto
                     {
-                        Id = user.Id,
+                        Id = user.Id.ToString(),
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Email = user.Email,

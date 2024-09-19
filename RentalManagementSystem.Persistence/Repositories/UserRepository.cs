@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RentalManagementSystem.Application.Abstractions.Reposittories;
+using RentalManagementSystem.Application.Abstractions.Repositories;
 using RentalManagementSystem.Entities;
 using RentalManagementSystem.Persistence.Context;
+using System.Threading.Tasks;
 
 namespace RentalManagementSystem.Infrastructure.Repositories
 {
@@ -14,14 +15,14 @@ namespace RentalManagementSystem.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUserByIdAsync(string id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
             return await _context.Users
                 .Where(u => u.Id == id && !u.IsDeleted)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _context.Users
                 .Where(u => u.Email == email && !u.IsDeleted)
@@ -41,18 +42,18 @@ namespace RentalManagementSystem.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(int id)
         {
             var user = await GetUserByIdAsync(id);
             if (user != null)
             {
-                user.IsDeleted = true; 
+                user.IsDeleted = true;
                 user.DeletedOn = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<bool> ExistAsync(string userId)
+        public async Task<bool> ExistsAsync(int userId)
         {
             return await _context.Users
                 .AnyAsync(u => u.Id == userId && !u.IsDeleted);
