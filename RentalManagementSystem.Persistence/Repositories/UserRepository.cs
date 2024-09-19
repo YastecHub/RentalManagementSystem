@@ -2,7 +2,6 @@
 using RentalManagementSystem.Application.Abstractions.Repositories;
 using RentalManagementSystem.Entities;
 using RentalManagementSystem.Persistence.Context;
-using System.Threading.Tasks;
 
 namespace RentalManagementSystem.Infrastructure.Repositories
 {
@@ -15,7 +14,7 @@ namespace RentalManagementSystem.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(Guid id)
         {
             return await _context.Users
                 .Where(u => u.Id == id && !u.IsDeleted)
@@ -42,7 +41,7 @@ namespace RentalManagementSystem.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Guid id)
         {
             var user = await GetUserByIdAsync(id);
             if (user != null)
@@ -53,7 +52,7 @@ namespace RentalManagementSystem.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> ExistsAsync(int userId)
+        public async Task<bool> ExistsAsync(Guid userId)
         {
             return await _context.Users
                 .AnyAsync(u => u.Id == userId && !u.IsDeleted);

@@ -5,7 +5,7 @@ using RentalManagementSystem.Entities;
 
 namespace RentalManagementSystem.Persistence.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

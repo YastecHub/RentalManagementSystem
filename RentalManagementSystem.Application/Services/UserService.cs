@@ -33,7 +33,12 @@ namespace RentalManagementSystem.Application.Services
 
                 var result = await _userRepository.CreateUserAsync(user, createUserDto.Password);
                 if (result == null)
-                    return ResponseModel<UserDto>.Failure("Failed to create user");
+                    return new ResponseModel<UserDto>
+                    {
+                        IsSuccessful = false,
+                        StatusCode = 400,
+                        Message = "Failed to create user"
+                    };
 
                 var userDto = new UserDto
                 {
@@ -49,15 +54,24 @@ namespace RentalManagementSystem.Application.Services
                     UserRole = user.UserRole
                 };
 
-                return ResponseModel<UserDto>.Success(userDto, "User created successfully");
+                return new ResponseModel<UserDto>
+                {
+                    IsSuccessful = true,
+                    StatusCode = 200,
+                    Message = "User created successfully"
+                };
             }
             catch (Exception ex)
             {
-                return ResponseModel<UserDto>.Failure($"Error occurred while creating user");
+                return new ResponseModel<UserDto>
+                {
+                    IsSuccessful = false,
+                    Message = $"Error occurred while creating user {ex.Message}"
+                };
             }
         }
 
-        public async Task<ResponseModel> DeleteAsync(int userId)
+        public async Task<ResponseModel> DeleteAsync(Guid userId)
         {
             try
             {
@@ -91,7 +105,7 @@ namespace RentalManagementSystem.Application.Services
             }
         }
 
-        public async Task<ResponseModel<bool>> ExistsAsync(int userId)
+        public async Task<ResponseModel<bool>> ExistsAsync(Guid userId)
         {
             try
             {
@@ -100,7 +114,7 @@ namespace RentalManagementSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return ResponseModel<bool>.Failure($"Error occurred while checking user existence");
+                return ResponseModel<bool>.Failure($"Error occurred while checking user existence{ex.Message}");
             }
         }
 
@@ -143,11 +157,15 @@ namespace RentalManagementSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return ResponseModel<UserDto>.Failure($"Error occurred while retrieving user");
+                return new ResponseModel<UserDto>
+                {
+                    IsSuccessful = false,
+                    Message = $"Error occurred while retrieving user{ex.Message}"
+                };
             }
         }
 
-        public async Task<ResponseModel<UserDto>> GetByIdAsync(int userId)
+        public async Task<ResponseModel<UserDto>> GetByIdAsync(Guid userId)
         {
             try
             {
@@ -186,11 +204,15 @@ namespace RentalManagementSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return ResponseModel<UserDto>.Failure($"Error occurred while retrieving user");
+                return new ResponseModel<UserDto>
+                {
+                    IsSuccessful = false,
+                    Message = $"Error occurred while retrieving user {ex.Message}"
+                };
             }
         }
 
-        public async Task<ResponseModel> UpdateUser(UpdateUserDto updateUserDto, int userId)
+        public async Task<ResponseModel> UpdateUser(UpdateUserDto updateUserDto, Guid userId)
         {
             try
             {
@@ -243,7 +265,7 @@ namespace RentalManagementSystem.Application.Services
                 {
                     IsSuccessful = false,
                     StatusCode = 500,
-                    Message = "Error occurred while updating user"
+                    Message = $"Error occurred while updating user {ex.Message}"
                 };
             }
         }
