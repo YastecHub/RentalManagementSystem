@@ -1,26 +1,19 @@
 ﻿using RentalManagementSystem.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RentalManagementSystem.Application.Abstractions.Services
 {
     public interface IReportService
     {
-        Task<ResponseModel<ReportDto>> CreateReport(CreateReportDto createReportDto);
+        Task<ResponseModel<IEnumerable<ReportDto>>> GenerateDailyReport(DateTime date);
 
-        Task<ResponseModel<ReportDto>> UpdateReport(UpdateReportDto updateReportDto);
+        Task<ResponseModel<IEnumerable<ReportDto>>> GenerateWeeklyReport(DateTime startOfWeek);
 
-        Task<ResponseModel<ReportDto>> GetReportById(Guid reportId);
+        Task<ResponseModel<IEnumerable<ReportDto>>> GenerateMontlyReport(int year, int month);
 
-        Task<ResponseModel<IEnumerable<ReportDto>>> GetAllReports();
+        Task<ResponseModel<IEnumerable<ReportDto>>> GenerateYearlyReport(int year);
 
-        Task<ResponseModel<IEnumerable<ReportDto>>> GetReportsByUserId(Guid userId);
+        Task<ResponseModel<IEnumerable<ReportDto>>> GenerateReportWithinDateRange(DateTime startDate, DateTime endDate);
 
-        Task<ResponseModel<IEnumerable<ReportDto>>> GetReportsWithinDateRange(DateTime startDate, DateTime endDate);
-
-        Task<ResponseModel> DeleteReport(Guid reportId);
-
-        Task<ResponseModel<bool>> ReportExists(Guid reportId);
+        Task<ResponseModel<IEnumerable<ReportDto>>> GenerateReportsByUserId(Guid userId);
     }
 }

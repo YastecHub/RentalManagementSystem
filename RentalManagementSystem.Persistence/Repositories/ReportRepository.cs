@@ -13,38 +13,7 @@ namespace RentalManagementSystem.Persistence.Repositories
         {
             _applicationDbContext = applicationDbContext;
         }
-        public async Task<Report> AddReport(Report report)
-        {
-            await _applicationDbContext.Reports.AddAsync(report);
-            await _applicationDbContext.SaveChangesAsync();
-            return report;
-        }
-
-        public async Task<Report> DeleteReport(Guid reportId)
-        {
-           var report = await GetReportById(reportId);
-            if(report != null)
-            {
-                _applicationDbContext.Reports.Remove(report);
-                await _applicationDbContext.SaveChangesAsync();
-            }
-            return report;
-        }
-
-        public async Task<IEnumerable<Report>> GetAllReports()
-        {
-            return await _applicationDbContext.Reports
-                 .Include(r => r.GeneratedByUser)
-                 .ToListAsync();
-        }
-
-        public async Task<Report> GetReportById(Guid reportId)
-        {
-            return await _applicationDbContext.Reports
-                 .Include(r => r.GeneratedByUser)
-                 .FirstOrDefaultAsync(r => r.Id == reportId);
-        }
-
+        
         public async Task<IEnumerable<Report>> GetReportWithinDateRange(DateTime startDate, DateTime endDate)
         {
             return await _applicationDbContext.Reports
@@ -52,7 +21,7 @@ namespace RentalManagementSystem.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Report>> GetReportByUserId(Guid userId)
+        public async Task<IEnumerable<Report>> GetReportsByUserId(Guid userId)
         {
            return await _applicationDbContext.Reports
                 .Include(r => r.GeneratedByUser)
@@ -60,17 +29,34 @@ namespace RentalManagementSystem.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<bool> ReportExists(Guid reportId)
+        public async Task<IEnumerable<Report>> GetDailyReport(DateTime date)
         {
-            return await _applicationDbContext.Reports
-                .AnyAsync(r => r.Id == reportId);
+           return await _applicationDbContext.Reports
+                .Where(r => r.GeneratedDate.Date == date.Date)
+                .ToListAsync();
         }
 
-        public async Task<Report> UpdateReport(Report report)
+        public async Task<IEnumerable<Report>> GetWeeklyReport(DateTime startOfWeek)
         {
-           _applicationDbContext.Reports.Update(report);
-            await _applicationDbContext.SaveChangesAsync();
-            return report;
+            var endOfWeek = startOfWeek.AddDays(7);
+            return await _applicationDbContext.Reports
+                .Where(r => r.GeneratedDate >= startOfWeek && r.GeneratedDate < endOfWeek)
+                .ToListAsync();
         }
+
+        public async Task<IEnumerable<Report>> GetMontlyReport(int year, int month)
+        {
+            return await _applicationDbContext.Reports
+                .Where(r => r.GeneratedDate.Year == year  && r.GeneratedDate.Month == month)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Report>> GetYearlyReport(int year)
+        {
+            return await _applicationDbContext.Reports
+                .Where(r => r.GeneratedDate.Year == year)
+                .ToListAsync();
+        }
+
     }
 }
