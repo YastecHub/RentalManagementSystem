@@ -1,4 +1,5 @@
-﻿using RentalManagementSystem.Application.Abstractions.Repositories;
+﻿using Microsoft.AspNetCore.Identity;
+using RentalManagementSystem.Application.Abstractions.Repositories;
 using RentalManagementSystem.Application.Abstractions.Services;
 using RentalManagementSystem.Application.DTOs;
 using RentalManagementSystem.Entities;
@@ -8,16 +9,29 @@ namespace RentalManagementSystem.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userRepository = userRepository;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<ResponseModel<UserDto>> CreateUserAsync(CreateUserDto createUserDto)
         {
             try
             {
+                if (await _roleManager.RoleExistsAsync(createUserDto.UserRole.ToString()))
+                {
+                    return new ResponseModel<UserDto>
+                    {
+                        IsSuccessful = false,
+                        Message = $"Role '{createUserDto.UserRole}' does not exist."
+                    };
+                }
                 var user = new User
                 {
                     Id = Guid.NewGuid(),
@@ -32,14 +46,30 @@ namespace RentalManagementSystem.Application.Services
                     UserRole = createUserDto.UserRole,
                 };
 
-                var result = await _userRepository.CreateUserAsync(user, createUserDto.Password);
-                if (result == null)
+                var result = await _userManager.CreateAsync(user,createUserDto.Password);
+                if (!result.Succeeded)
+                {
+                    var errors = string.Join(",", result.Errors.Select(e => e.Description));
+
+                    return new ResponseModel<UserDto>
+                    {
+                        IsSuccessful = false,
+                        Message = $"Failed to create user: {errors}"
+                    };
+                }
+
+                var roleResult = await _userManager.AddToRoleAsync(user, createUserDto.UserRole.ToString());
+                if (!roleResult.Succeeded) 
+                {
+                    var errors = string.Join(",", roleResult.Errors.Select(e => e.Description));
+
                     return new ResponseModel<UserDto>
                     {
                         IsSuccessful = false,
                         StatusCode = 400,
-                        Message = "Failed to create user"
+                        Message = $"Failed to assigng role : {errors} "
                     };
+                }
 
                 var userDto = new UserDto
                 {

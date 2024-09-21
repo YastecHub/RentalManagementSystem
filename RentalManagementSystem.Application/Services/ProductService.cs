@@ -19,6 +19,14 @@ namespace RentalManagementSystem.Application.Services
         {
             try
             {
+                if(createProductDto == null)
+                {
+                    return new ResponseModel<CreateProductDto>
+                    {
+                        IsSuccessful = false,
+                        Message = "Product cannot be null"
+                    };
+                }
                 var product = new Product
                 {
                     Id = Guid.NewGuid(),
@@ -115,6 +123,7 @@ namespace RentalManagementSystem.Application.Services
                     Description = product.Description,
                     RentalPrice = product.RentalPrice,
                     StockQuantity = product.StockQuantity,
+                    Available = product.Available,
                 };
 
                 return new ResponseModel<ProductDto>
@@ -182,7 +191,6 @@ namespace RentalManagementSystem.Application.Services
 
                 var updatedProductDto = new UpdateProductDto
                 {
-                    Id = existingProduct.Id,
                     Name = existingProduct.Name,
                     Description = existingProduct.Description,
                     RentalPrice = existingProduct.RentalPrice,

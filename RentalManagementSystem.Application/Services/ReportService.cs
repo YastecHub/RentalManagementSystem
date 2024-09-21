@@ -2,10 +2,6 @@
 using RentalManagementSystem.Application.Abstractions.Services;
 using RentalManagementSystem.Application.DTOs;
 using RentalManagementSystem.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RentalManagementSystem.Application.Services
 {

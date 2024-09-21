@@ -45,7 +45,7 @@ namespace RentalManagementSystem.Persistence.Repositories
         public async Task<bool> IsProductAvailableAsync(int productId)
         {
             var product = await _applicationDbContext.Products.FindAsync(productId);
-            return product?.Available ?? false;
+            return product?.Available ?? false; 
         }
 
         public async Task UpdateProductAsync(Product product)

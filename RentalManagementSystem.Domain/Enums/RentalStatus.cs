@@ -10,8 +10,6 @@
 
         Rejected,
 
-        Active,
-
         Completed
     }
 }

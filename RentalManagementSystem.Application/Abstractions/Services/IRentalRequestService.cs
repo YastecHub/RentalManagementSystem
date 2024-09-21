@@ -20,5 +20,9 @@ namespace RentalManagementSystem.Application.Abstractions.Services
         Task<ResponseModel<IEnumerable<RentalRequestDto>>> GetAllRentalRequests();
 
         Task<ResponseModel> DeleteRentalRequest(Guid rentalRequestId);
+
+        Task<ResponseModel<RentalRequestDto>> ApproveRentalRequest(Guid rentalRequestId);
+
+        Task<ResponseModel<RentalRequestDto>> RejectRentalRequest(Guid rentalRequestId);
     }
 }

@@ -2,11 +2,7 @@
 using RentalManagementSystem.Application.Abstractions.Services;
 using RentalManagementSystem.Application.DTOs;
 using RentalManagementSystem.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RentalManagementSystem.Enum;
 
 namespace RentalManagementSystem.Application.Services
 {
@@ -18,6 +14,7 @@ namespace RentalManagementSystem.Application.Services
         {
             _rentalRequestRepository = rentalRequestRepository;
         }
+
         public async Task<ResponseModel<RentalRequestDto>> CreateRentalRequest(CreateRentalRequestDto createRentalRequest)
         {
             try
@@ -144,7 +141,7 @@ namespace RentalManagementSystem.Application.Services
                     Message = $"Error occurred while retrieving all rental requests: {ex.Message}"
                 };
             }
-            
+
         }
 
         public async Task<ResponseModel<RentalRequestDto>> GetRentalRequestById(Guid rentalRequestId)
@@ -237,7 +234,7 @@ namespace RentalManagementSystem.Application.Services
             {
                 var existingRequest = await _rentalRequestRepository.GetRentalRequestById(updateRentalRequest.Id);
 
-                if (existingRequest != null)
+                if (existingRequest == null)
                 {
                     return new ResponseModel<RentalRequestDto>
                     {
@@ -246,6 +243,16 @@ namespace RentalManagementSystem.Application.Services
                         Message = "Rental Request not found"
                     };
                 }
+
+                if (existingRequest.Status == RentalStatus.Approved || existingRequest.Status == RentalStatus.Rejected || existingRequest.Status == RentalStatus.Completed)
+                {
+                    return new ResponseModel<RentalRequestDto>
+                    {
+                        IsSuccessful = false,
+                        Message = "Rental Request cannot be updated once it's Approved, InProgress, or Completed"
+                    };
+                }
+
 
                 existingRequest.UserId = updateRentalRequest.UserId;
                 existingRequest.ProductId = Guid.Parse(updateRentalRequest.ProductId);
@@ -258,9 +265,6 @@ namespace RentalManagementSystem.Application.Services
 
                 var retalRequestDto = new RentalRequestDto
                 {
-                    Id = existingRequest.Id,
-                    UserId = existingRequest.UserId,
-                    ProductId = existingRequest.ProductId.ToString(),
                     RentalPeriod = existingRequest.RentalPeriod,
                     RentalEndDate = existingRequest.RentalEndDate,
                     RentalStartDate = existingRequest.RentalStartDate,
@@ -285,6 +289,87 @@ namespace RentalManagementSystem.Application.Services
                 };
             }
 
+        }
+
+        public async Task<ResponseModel<RentalRequestDto>> ApproveRentalRequest(Guid rentalRequestId)
+        {
+            try
+            {
+                var rentalRequest = await _rentalRequestRepository.GetRentalRequestById(rentalRequestId);
+                if (rentalRequest == null)
+                {
+                    return new ResponseModel<RentalRequestDto>
+                    {
+                        IsSuccessful = false,
+                        Message = "Rental request not found"
+                    };
+                }
+
+                rentalRequest.Status = RentalStatus.Approved;
+
+                await _rentalRequestRepository.UpdateRentalRequest(rentalRequest);
+
+                var rentalDto = new RentalRequestDto
+                {
+                    Id = rentalRequest.Id,
+                    Status = rentalRequest.Status,
+                };
+
+                return new ResponseModel<RentalRequestDto>
+                {
+                    IsSuccessful = true,
+                    Data = rentalDto,
+                    Message = "Rental request approved successfully"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResponseModel<RentalRequestDto>
+                {
+                    IsSuccessful = false,
+                    Message = "Failed to approve the rental request. Please try again."
+                };
+            }
+        }
+
+        public async Task<ResponseModel<RentalRequestDto>> RejectRentalRequest(Guid rentalRequestId)
+        {
+            try
+            {
+                var rentalRequest = await _rentalRequestRepository.GetRentalRequestById(rentalRequestId);
+                if (rentalRequest == null)
+                {
+                    return new ResponseModel<RentalRequestDto>
+                    {
+                        IsSuccessful = false,
+                        Message = "Rental request not found"
+                    };
+                }
+
+                rentalRequest.Status = RentalStatus.Rejected;
+                await _rentalRequestRepository.UpdateRentalRequest(rentalRequest);
+
+                var rentalDto = new RentalRequestDto
+                {
+                    Id = rentalRequest.Id,
+                    Status = rentalRequest.Status
+                };
+
+                return new ResponseModel<RentalRequestDto>
+                {
+                    IsSuccessful = true,
+                    Data = rentalDto,
+                    Message = "Rental request declined successfully"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResponseModel<RentalRequestDto>
+                {
+                    IsSuccessful = false,
+                    Message = "Failed to decline the rental request. Please try again."
+                };
+            }
         }
     }
 }
