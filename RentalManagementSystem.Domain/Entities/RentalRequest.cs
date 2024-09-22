@@ -5,7 +5,7 @@ namespace RentalManagementSystem.Entities
 {
     public class RentalRequest : BaseEntity
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
 
         public Guid ProductId { get; set; }

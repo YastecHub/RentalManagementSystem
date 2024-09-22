@@ -1,9 +1,4 @@
 ﻿using RentalManagementSystem.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentalManagementSystem.Application.Abstractions.Services
 {
@@ -15,7 +10,7 @@ namespace RentalManagementSystem.Application.Abstractions.Services
 
         Task<ResponseModel<RentalRequestDto>> GetRentalRequestById(Guid rentalRequestId);
 
-        Task<ResponseModel<IEnumerable<RentalRequestDto>>> GetRentalRequestsByUserId(string userId);
+        Task<ResponseModel<IEnumerable<RentalRequestDto>>> GetRentalRequestsByUserId(Guid userId);
 
         Task<ResponseModel<IEnumerable<RentalRequestDto>>> GetAllRentalRequests();
 

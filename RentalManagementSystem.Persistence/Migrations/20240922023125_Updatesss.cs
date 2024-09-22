@@ -5,7 +5,7 @@
 namespace RentalManagementSystem.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Nullables : Migration
+    public partial class Updatesss : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

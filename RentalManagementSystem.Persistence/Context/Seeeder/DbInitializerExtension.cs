@@ -16,8 +16,9 @@ namespace RentalManagementSystem.Persistence.Context.Seeder
 
             try
             {
+                // Use IdentityRole<Guid> since your roles are based on Guid
                 var userManager = services.GetRequiredService<UserManager<User>>();
-                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
                 await ContextSeeder.SeedRolesAsync(roleManager);
                 await ContextSeeder.SeedAdminAsync(userManager);

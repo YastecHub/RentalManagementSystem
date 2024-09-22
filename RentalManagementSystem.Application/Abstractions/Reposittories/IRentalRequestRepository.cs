@@ -7,7 +7,7 @@ namespace RentalManagementSystem.Application.Abstractions.Reposittories
 
         Task<RentalRequest?> GetRentalRequestById(Guid retalrequestId);
 
-        Task<IEnumerable<RentalRequest>> GetRentalRequestsByUserIdAsync(string userId);
+        Task<IEnumerable<RentalRequest>> GetRentalRequestsByUserIdAsync(Guid userId);
 
         Task<IEnumerable<RentalRequest>> GetAllRentalRequests();
 

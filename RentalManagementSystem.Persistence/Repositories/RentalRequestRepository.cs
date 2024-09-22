@@ -47,7 +47,7 @@ namespace RentalManagementSystem.Persistence.Repositories
                 .FirstOrDefaultAsync(r => r.Id == retalrequestId);
         }
 
-        public async Task<IEnumerable<RentalRequest>> GetRentalRequestsByUserIdAsync(string userId)
+        public async Task<IEnumerable<RentalRequest>> GetRentalRequestsByUserIdAsync(Guid userId)
         {
            return await _applicationDbContext.RentalRequests
                  .Include(r => r.User)

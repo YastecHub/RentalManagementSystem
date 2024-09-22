@@ -23,7 +23,7 @@ namespace RentalManagementSystem.Application.Services
                 {
                     Id = Guid.NewGuid(),
                     UserId = createRentalRequest.UserId,
-                    ProductId = Guid.Parse(createRentalRequest.ProductId),
+                    ProductId = createRentalRequest.ProductId,
                     RentalPeriod = createRentalRequest.RentalPeriod,
                     RentalStartDate = createRentalRequest.RentalStartDate,
                     RentalEndDate = createRentalRequest.RentalEndDate,
@@ -45,7 +45,7 @@ namespace RentalManagementSystem.Application.Services
                 {
                     Id = createdRequest.Id,
                     UserId = createdRequest.UserId,
-                    ProductId = createdRequest.ProductId.ToString(),
+                    ProductId = createdRequest.ProductId,
                     RentalPeriod = createdRequest.RentalPeriod,
                     RentalStartDate = createdRequest.RentalStartDate,
                     RentalEndDate = createdRequest.RentalEndDate,
@@ -117,7 +117,7 @@ namespace RentalManagementSystem.Application.Services
                 {
                     Id = request.Id,
                     UserId = request.UserId,
-                    ProductId = request.ProductId.ToString(),
+                    ProductId = request.ProductId,
                     RentalPeriod = request.RentalPeriod,
                     RentalStartDate = request.RentalStartDate,
                     RentalEndDate = request.RentalEndDate,
@@ -164,7 +164,7 @@ namespace RentalManagementSystem.Application.Services
                 {
                     Id = rentalRequest.Id,
                     UserId = rentalRequest.UserId,
-                    ProductId = rentalRequest.ProductId.ToString(),
+                    ProductId = rentalRequest.ProductId,
                     RentalPeriod = rentalRequest.RentalPeriod,
                     RentalStartDate = rentalRequest.RentalStartDate,
                     RentalEndDate = rentalRequest.RentalEndDate,
@@ -190,7 +190,7 @@ namespace RentalManagementSystem.Application.Services
             }
         }
 
-        public async Task<ResponseModel<IEnumerable<RentalRequestDto>>> GetRentalRequestsByUserId(string userId)
+        public async Task<ResponseModel<IEnumerable<RentalRequestDto>>> GetRentalRequestsByUserId(Guid userId)
         {
             try
             {
@@ -200,7 +200,7 @@ namespace RentalManagementSystem.Application.Services
                 {
                     Id = request.Id,
                     UserId = request.UserId,
-                    ProductId = request.ProductId.ToString(),
+                    ProductId = request.ProductId,
                     RentalPeriod = request.RentalPeriod,
                     RentalStartDate = request.RentalStartDate,
                     RentalEndDate = request.RentalEndDate,
@@ -255,7 +255,7 @@ namespace RentalManagementSystem.Application.Services
 
 
                 existingRequest.UserId = updateRentalRequest.UserId;
-                existingRequest.ProductId = Guid.Parse(updateRentalRequest.ProductId);
+                existingRequest.ProductId = updateRentalRequest.ProductId;
                 existingRequest.RentalPeriod = updateRentalRequest.RentalPeriod;
                 existingRequest.RentalStartDate = updateRentalRequest.RentalStartDate;
                 existingRequest.RentalEndDate = updateRentalRequest.RentalEndDate;

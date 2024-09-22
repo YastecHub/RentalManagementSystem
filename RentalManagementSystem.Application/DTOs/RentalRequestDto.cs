@@ -6,9 +6,9 @@ namespace RentalManagementSystem.Application.DTOs
     {
         public Guid Id { get; set; }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
-        public string ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         public RentalPeriod RentalPeriod { get; set; }
 
@@ -22,9 +22,9 @@ namespace RentalManagementSystem.Application.DTOs
     public class CreateRentalRequestDto
     {
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
-        public string ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         public RentalPeriod RentalPeriod { get; set; }
 
@@ -40,9 +40,9 @@ namespace RentalManagementSystem.Application.DTOs
     {
         public Guid Id { get; set; }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
-        public string ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         public RentalPeriod RentalPeriod { get; set; }
 
