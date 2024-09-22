@@ -35,32 +35,42 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddControllersWithViews();
+// Add API-related services
+builder.Services.AddControllers();
+
+// Add Swagger for API documentation
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Build the app
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
-if (!app.Environment.IsDevelopment())
+// Enable Swagger middleware for API documentation
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentalManagementSystem API v1");
+    });
+}
+else
+{
+    app.UseExceptionHandler("/error");
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 
-// Ensure authentication and authorization middleware are configured
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Seed roles and super admin (ensure this method is correct)
+// Seed roles and super admin
 await app.UseItToSeedSqlServer();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+// Map API controllers
+app.MapControllers();
 
 app.Run();
