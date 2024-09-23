@@ -9,7 +9,8 @@ namespace RentalManagementSystem.Domain.Entities
     public class EmployeeSurvey
     {
         public Guid SurveyId { get; set; }
-        public Guid EmployeeId { get; set; } 
+        public Guid EmployeeId { get; set; }
+        public Employee Employee { get; set; }
 
         public DateTime SurveyDate { get; set; }
 
@@ -17,7 +18,5 @@ namespace RentalManagementSystem.Domain.Entities
         public int GoalAlignment { get; set; }
         public int MoodMorale { get; set; }
         public int ProductivityScore { get; set; }
-
-        public Employee Employee { get; set; } 
     }
 }

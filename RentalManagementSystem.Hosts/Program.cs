@@ -1,11 +1,17 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using RentalManagementSystem.Application.Abstractions.Services;
 using RentalManagementSystem.Entities;
 using RentalManagementSystem.Persistence.Common;
-using RentalManagementSystem.Persistence.Context;
 using RentalManagementSystem.Persistence.Context.Seeder;
+using RentalManagementSystem.Persistence.Context;
 using RentalManagementSystem.Persistence.Logging.Serilog;
+using System.Text;
+using RentalManagementSystem.Application.Abstractions.Reposittories;
+using RentalManagementSystem.Application.Services;
+using RentalManagementSystem.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +28,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add HTTP context accessor and current user services
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 // Add Identity services
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
@@ -34,6 +43,29 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+// JWT Authentication Configuration
+var jwtSettings = builder.Configuration.GetSection("JWT");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["ValidIssuer"],
+        ValidAudience = jwtSettings["ValidAudience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
 
 // Add API-related services
 builder.Services.AddControllers();
@@ -64,6 +96,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+// Use Authentication and Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 

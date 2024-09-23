@@ -1,9 +1,6 @@
 ﻿using RentalManagementSystem.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentalManagementSystem.Domain.Entities
 {
@@ -14,9 +11,20 @@ namespace RentalManagementSystem.Domain.Entities
 
         public string Position { get; set; }
         public string Department { get; set; }
-
         public DateTime HireDate { get; set; }
 
-        public User User { get; set; } 
+        public User User { get; set; }
+
+        public decimal Salary { get; set; }
+        public string EmployeeCode { get; set; } 
+
+        public string OfficePhoneNumber { get; set; }
+        public string OfficeEmail { get; set; }
+
+        
+        public Guid? SupervisorId { get; set; }
+        public Employee Supervisor { get; set; }
+
+        public List<WorkHistory> WorkHistories { get; set; } = new List<WorkHistory>();
     }
 }

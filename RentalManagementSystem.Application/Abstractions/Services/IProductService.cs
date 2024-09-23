@@ -3,7 +3,7 @@ using RentalManagementSystem.Entities;
 
 namespace RentalManagementSystem.Application.Abstractions.Services
 {
-    interface IProductService
+    public interface IProductService
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
 
