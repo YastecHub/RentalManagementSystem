@@ -12,6 +12,8 @@ using System.Text;
 using RentalManagementSystem.Application.Abstractions.Reposittories;
 using RentalManagementSystem.Application.Services;
 using RentalManagementSystem.Persistence.Repositories;
+using RentalManagementSystem.Infrastructure.Repositories;
+using RentalManagementSystem.Application.Abstractions.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,9 +30,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add HTTP context accessor and current user services
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
-builder.Services.AddScoped<IProductService, ProductService>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IRentalRequestService, RentalRequestService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Add Identity services
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
@@ -42,6 +53,7 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     options.Password.RequiredLength = 6;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
+.AddRoleManager<RoleManager<IdentityRole<Guid>>>()
 .AddDefaultTokenProviders();
 
 // JWT Authentication Configuration

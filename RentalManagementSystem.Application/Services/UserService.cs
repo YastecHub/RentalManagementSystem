@@ -10,9 +10,9 @@ namespace RentalManagementSystem.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-        public UserService(IUserRepository userRepository, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public UserService(IUserRepository userRepository, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
         {
             _userRepository = userRepository;
             _userManager = userManager;

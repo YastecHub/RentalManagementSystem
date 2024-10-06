@@ -27,8 +27,9 @@ namespace RentalManagementSystem.Hosts.Controllers
             var result = await _userService.CreateUserAsync(createUserDto);
             if (result.IsSuccessful)
             {
-                return Ok(result); 
+                return Ok(result);
             }
+
             return BadRequest(result);
         }
 
@@ -36,11 +37,11 @@ namespace RentalManagementSystem.Hosts.Controllers
         public async Task<IActionResult> DeleteUser(Guid userId)
         {
             var result = await _userService.DeleteAsync(userId);
-
             if (result.IsSuccessful)
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
 
@@ -52,6 +53,7 @@ namespace RentalManagementSystem.Hosts.Controllers
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
 
@@ -63,10 +65,11 @@ namespace RentalManagementSystem.Hosts.Controllers
             {
                 return Ok(result);
             }
+
             return NotFound(result);
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("email/{email}")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
             var result = await _userService.GetByEmailAsync(email);
@@ -74,22 +77,24 @@ namespace RentalManagementSystem.Hosts.Controllers
             {
                 return Ok(result);
             }
-            return NotFound();
+
+            return NotFound(result);
         }
 
         [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto updateUserDto,Guid userId)
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto updateUserDto, Guid userId)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
             }
-            var result = await _userService.UpdateUser(updateUserDto, userId);
 
+            var result = await _userService.UpdateUser(updateUserDto, userId);
             if (result.IsSuccessful)
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
     }

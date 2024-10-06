@@ -2,7 +2,7 @@
 
 namespace RentalManagementSystem.Application.Abstractions.Services
 {
-    public interface IAuthenticationService
+    public interface IAuthService
     {
         Task<Status> LoginAsync(LoginModelDto model);
 
